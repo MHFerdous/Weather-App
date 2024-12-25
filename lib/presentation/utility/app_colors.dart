@@ -13,7 +13,7 @@ class AppColors {
   }
 
   static const ColorScheme colorScheme = ColorScheme(
-    primary: Color(0xFF123597),
+    primary: Color(0xFF97ABFF),
     onPrimary: Colors.black,
     secondary: Color(0xFFEFF3F3),
     onSecondary: Color(0xFF322942),

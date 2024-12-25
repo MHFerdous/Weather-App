@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:weather_app_flutter/presentation/screens/splash_screen.dart';
 import 'package:weather_app_flutter/presentation/utility/app_colors.dart';
 
@@ -12,14 +13,14 @@ class WeatherApp extends StatefulWidget {
 class _WeatherAppState extends State<WeatherApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             elevation: 0,
-            backgroundColor: AppColors.lightThemeData.primaryColor,
+            backgroundColor: AppColors.lightThemeData.secondaryHeaderColor,
             foregroundColor: Color(0xFFFFFFFF),
             padding: const EdgeInsets.symmetric(vertical: 16),
             textStyle: const TextStyle(
@@ -28,7 +29,7 @@ class _WeatherAppState extends State<WeatherApp> {
               fontWeight: FontWeight.bold,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(24),
             ),
           ),
         ),
