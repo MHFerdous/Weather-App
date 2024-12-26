@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_app_flutter/application/state_holder_binders.dart';
 import 'package:weather_app_flutter/presentation/screens/splash_screen.dart';
 import 'package:weather_app_flutter/presentation/utility/app_colors.dart';
 
@@ -15,6 +16,7 @@ class _WeatherAppState extends State<WeatherApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialBinding: StateHolderBinders(),
       home: const SplashScreen(),
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(

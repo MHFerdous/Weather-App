@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:weather_app_flutter/presentation/state_holders/location_controller.dart';
 import 'package:weather_app_flutter/presentation/utility/app_colors.dart';
-import 'package:weather_app_flutter/presentation/utility/image_icon_assets.dart';
 import 'package:weather_app_flutter/presentation/widgets/custom_description_display.dart';
 import 'package:weather_app_flutter/presentation/widgets/custom_details_section.dart';
 import 'package:weather_app_flutter/presentation/widgets/custom_location_display.dart';
@@ -18,6 +18,17 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   bool _isButton1Active = true;
   bool _isButton2Active = false;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<LocationController>().getMyLocation();
+      if (LocationController().locationData == null) {
+        CircularProgressIndicator();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,13 +60,26 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           SizedBox(
             height: 56,
           ),
-          CustomLocationDisplay(),
-          CustomTempDisplay(),
+          GetBuilder<LocationController>(builder: (locationController) {
+            return locationController.locationData == null
+                ? const CircularProgressIndicator()
+                : CustomLocationDisplay(
+                    location: locationController.weatherListModel?.city?.name
+                            .toString() ??
+                        'Loading');
+          }),
+          GetBuilder<LocationController>(builder: (locationController) {
+            return CustomTempDisplay(
+              temperature: locationController
+                      .weatherListModel!.weatherData![0].main?.temp
+                      .toString() ??
+                  'loading',
+            );
+          }),
           CustomDescriptionDisplay(),
           SizedBox(
             height: 25,
           ),
-
           SizedBox(
             height: 32,
           ),
