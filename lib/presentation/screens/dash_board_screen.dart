@@ -23,9 +23,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<LocationController>().getMyLocation();
-      if (LocationController().locationData == null) {
-        CircularProgressIndicator();
-      }
     });
   }
 
@@ -52,79 +49,86 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   Widget _buildSmallPhoneLayout() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 8,
-        children: [
-          SizedBox(
-            height: 56,
-          ),
-          GetBuilder<LocationController>(builder: (locationController) {
-            return locationController.locationData == null
-                ? const CircularProgressIndicator()
-                : CustomLocationDisplay(
-                    location: locationController.weatherListModel?.city?.name
-                            .toString() ??
-                        'Loading');
-          }),
-          GetBuilder<LocationController>(builder: (locationController) {
-            return CustomTempDisplay(
+    return GetBuilder<LocationController>(builder: (locationController) {
+      if (locationController.getCartListInProgress ||
+          locationController.locationData == null) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 8,
+          children: [
+            SizedBox(
+              height: 56,
+            ),
+            CustomLocationDisplay(
+                location: locationController.weatherListModel?.city?.name
+                        .toString() ??
+                    'Loading'),
+            CustomTempDisplay(
               temperature: locationController
                       .weatherListModel!.weatherData![0].main?.temp
                       .toString() ??
                   'loading',
-            );
-          }),
-          CustomDescriptionDisplay(),
-          SizedBox(
-            height: 25,
-          ),
-          SizedBox(
-            height: 32,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 8,
-            children: [
-              SizedBox(
-                width: 108,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: _isButton1Active
-                          ? Colors.lightBlue
-                          : Colors.blueAccent),
-                  onPressed: () {
-                    _isButton1Active = true;
-                    _isButton2Active = false;
-                    setState(() {});
-                  },
-                  child: Text('Today'),
+            ),
+            CustomDescriptionDisplay(
+              description: locationController
+                      .weatherListModel!.weatherData![0].weather?[0].description
+                      .toString() ??
+                  'loading',
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            SizedBox(
+              height: 32,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 8,
+              children: [
+                SizedBox(
+                  width: 108,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: _isButton1Active
+                            ? Colors.lightBlue
+                            : Colors.blueAccent),
+                    onPressed: () {
+                      _isButton1Active = true;
+                      _isButton2Active = false;
+                      setState(() {});
+                    },
+                    child: Text('Today'),
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 134,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: _isButton2Active
-                          ? Colors.lightBlue
-                          : Colors.blueAccent),
-                  onPressed: () {
-                    _isButton2Active = true;
-                    _isButton1Active = false;
-                    setState(() {});
-                  },
-                  child: Text('Next Days'),
+                SizedBox(
+                  width: 134,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: _isButton2Active
+                            ? Colors.lightBlue
+                            : Colors.blueAccent),
+                    onPressed: () {
+                      _isButton2Active = true;
+                      _isButton1Active = false;
+                      setState(() {});
+                    },
+                    child: Text('Next Days'),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 32,
-          ),
-          CustomDetailsSection(),
-        ],
-      ),
-    );
+              ],
+            ),
+            SizedBox(
+              height: 32,
+            ),
+            CustomDetailsSection(),
+          ],
+        ),
+      );
+    });
   }
 }

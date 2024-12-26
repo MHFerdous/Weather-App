@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomDescriptionDisplay extends StatelessWidget {
+class CustomDescriptionDisplay extends StatefulWidget {
   const CustomDescriptionDisplay({
-    super.key,
+    super.key, required this.description,
   });
+  final String description;
 
+  @override
+  State<CustomDescriptionDisplay> createState() => _CustomDescriptionDisplayState();
+}
+
+class _CustomDescriptionDisplayState extends State<CustomDescriptionDisplay> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Partly Cloud - H:17 L:4',
+      widget.description,
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w400,
