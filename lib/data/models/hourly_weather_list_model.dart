@@ -1,13 +1,13 @@
-class WeatherListModel {
+class HourlyWeatherListModel {
   String? cod;
   int? message;
   int? cnt;
   List<WeatherData>? weatherData;
   City? city;
 
-  WeatherListModel({this.cod, this.message, this.cnt, this.weatherData, this.city});
+  HourlyWeatherListModel({this.cod, this.message, this.cnt, this.weatherData, this.city});
 
-  WeatherListModel.fromJson(Map<String, dynamic> json) {
+  HourlyWeatherListModel.fromJson(Map<String, dynamic> json) {
     cod = json['cod'];
     message = json['message'];
     cnt = json['cnt'];
