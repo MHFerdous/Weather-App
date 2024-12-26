@@ -18,7 +18,7 @@ class CustomDetailsCard extends StatelessWidget {
       height: 88,
       width: 326,
       child: Card(
-        color: Colors.blue,
+        color: Colors.blue.shade500,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

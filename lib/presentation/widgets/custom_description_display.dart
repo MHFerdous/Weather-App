@@ -16,7 +16,7 @@ class _CustomDescriptionDisplayState extends State<CustomDescriptionDisplay> {
     return Text(
       widget.description,
       style: TextStyle(
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: FontWeight.w400,
         color: Colors.white,
       ),

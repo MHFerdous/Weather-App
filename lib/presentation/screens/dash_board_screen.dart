@@ -66,7 +66,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             spacing: 8,
             children: [
               SizedBox(
-                height: 56,
+                height: 50,
               ),
               CustomLocationDisplay(
                   location: locationController.instantWeatherListModel?.name
@@ -82,10 +82,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     'loading',
               ),
               SizedBox(
-                height: 25,
-              ),
-              SizedBox(
-                height: 32,
+                height: 16,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +121,44 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ],
               ),
               SizedBox(
-                height: 32,
+                height: 16,
+              ),
+              SizedBox(
+                height: 160,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  // itemCount: locationController.hourlyWeatherListModel?.weatherData?.length ?? 5,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: SizedBox(
+                        height: 158,
+                        width: 70,
+                        child: Card(
+                          color: Colors.blue.shade300,
+                          elevation: 4.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(26),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                            child: Column(
+                              children: [
+                                Text('Time'),
+                                Spacer(),
+                                Text('Time'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 16,
               ),
               Expanded(
                 flex: 1,
