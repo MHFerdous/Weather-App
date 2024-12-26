@@ -92,9 +92,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     width: 108,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButton1Active
-                              ? Colors.lightBlue
-                              : Colors.blueAccent),
+                        backgroundColor: _isButton1Active
+                            ? Colors.blue.shade400
+                            : Colors.blue.shade600,
+                      ),
                       onPressed: () {
                         _isButton1Active = true;
                         _isButton2Active = false;
@@ -107,9 +108,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     width: 134,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButton2Active
-                              ? Colors.lightBlue
-                              : Colors.blueAccent),
+                        backgroundColor: _isButton2Active
+                            ? Colors.lightBlue
+                            : Colors.blue.shade500,
+                      ),
                       onPressed: () {
                         _isButton2Active = true;
                         _isButton1Active = false;
@@ -127,14 +129,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 height: 160,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  // itemCount: locationController.hourlyWeatherListModel?.weatherData?.length ?? 5,
+                  // itemCount: 5,
+                  itemCount: locationController
+                          .hourlyWeatherListModel?.weatherData?.length ??
+                      5,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
                         height: 158,
-                        width: 70,
+                        width: 72,
                         child: Card(
                           color: Colors.blue.shade300,
                           elevation: 4.0,
@@ -145,9 +149,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             padding: const EdgeInsets.only(top: 16, bottom: 16),
                             child: Column(
                               children: [
-                                Text('Time'),
+                                Text(
+                                  DateFormat('hh a').format(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      locationController.hourlyWeatherListModel!
+                                              .weatherData![index].dt! *
+                                          1000,
+                                    ),
+                                  ),
+                                ),
                                 Spacer(),
-                                Text('Time'),
+                                Text(
+                                  '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                ),
                               ],
                             ),
                           ),
