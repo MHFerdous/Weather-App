@@ -1,21 +1,25 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:location/location.dart';
 import 'package:weather_app_flutter/data/models/instant_weather_list_model.dart';
-import 'package:weather_app_flutter/data/models/network_response.dart';
 import 'package:weather_app_flutter/data/models/hourly_weather_list_model.dart';
-import 'package:weather_app_flutter/data/services/network_caller.dart';
-import 'package:weather_app_flutter/data/utility/urls.dart';
+import 'package:weather_app_flutter/presentation/state_holders/hourly_forecast_controller.dart';
+import 'package:weather_app_flutter/presentation/state_holders/instant_weather_controller.dart';
 
 class LocationController extends GetxController {
-  bool _getWeatherInProgress = false;
-  HourlyWeatherListModel _hourlyWeatherListModel = HourlyWeatherListModel();
-  InstantWeatherListModel _instantWeatherListModel = InstantWeatherListModel();
+  InstantWeatherController instantWeatherController =
+      InstantWeatherController();
+  HourlyForecastController hourlyForecastController =
+      HourlyForecastController();
+  final HourlyWeatherListModel _hourlyWeatherListModel =
+      HourlyWeatherListModel();
+  final InstantWeatherListModel _instantWeatherListModel =
+      InstantWeatherListModel();
   LocationData? _myCurrentLocation;
   StreamSubscription? _locationSubscription;
 
-  bool get getCartListInProgress => _getWeatherInProgress;
   HourlyWeatherListModel? get hourlyWeatherListModel => _hourlyWeatherListModel;
   InstantWeatherListModel? get instantWeatherListModel =>
       _instantWeatherListModel;
@@ -24,52 +28,16 @@ class LocationController extends GetxController {
 
   void getMyLocation() async {
     await Location.instance.requestPermission().then((requestedPermission) {
-      print(requestedPermission);
+      log(requestedPermission.toString());
     });
     await Location.instance.hasPermission().then((permissionStatus) {
-      print(permissionStatus);
+      log(permissionStatus.toString());
     });
     _myCurrentLocation = await Location.instance.getLocation();
-    print(_myCurrentLocation);
-    getInstantWeather();
-    getHourlyWeather();
+    log(_myCurrentLocation.toString());
+    await instantWeatherController.getInstantWeather();
+    await hourlyForecastController.getHourlyWeather();
     update();
-  }
-
-  Future<bool> getHourlyWeather() async {
-    _getWeatherInProgress = true;
-    update();
-    final NetworkResponse response = await NetworkCaller.getRequest(
-        Urls.getHourlyWeather(
-            _myCurrentLocation!.latitude!, _myCurrentLocation!.longitude!));
-    _getWeatherInProgress = false;
-    if (response.isSuccess) {
-      _hourlyWeatherListModel =
-          HourlyWeatherListModel.fromJson(response.responseJson!);
-
-      update();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> getInstantWeather() async {
-    _getWeatherInProgress = true;
-    update();
-    final NetworkResponse response = await NetworkCaller.getRequest(
-        Urls.getInstantWeather(
-            _myCurrentLocation!.latitude!, _myCurrentLocation!.longitude!));
-    _getWeatherInProgress = false;
-    if (response.isSuccess) {
-      _instantWeatherListModel =
-          InstantWeatherListModel.fromJson(response.responseJson!);
-
-      update();
-      return true;
-    } else {
-      return false;
-    }
   }
 
   void listenToMyLocation() {
@@ -77,7 +45,7 @@ class LocationController extends GetxController {
         Location.instance.onLocationChanged.listen((location) {
       if (location != _myCurrentLocation) {
         _myCurrentLocation = location;
-        print('listening to location $location');
+        log('listening to location $location');
         update();
       }
     });
