@@ -12,7 +12,8 @@ This app detects the user's current location and fetches weather information, in
 
 ### **Setup Steps**
 
-1. **Clone the Repository**  
+1. **Clone the Repository**
+   Open Android Studio, go to File -> New -> Project from Version Control, then paste the repository link. Or
    ```bash
    git clone https://github.com/MHFerdous/weather_app
    ```
