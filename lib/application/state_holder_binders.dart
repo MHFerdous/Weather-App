@@ -7,7 +7,7 @@ class StateHolderBinders extends Bindings {
   @override
   void dependencies() {
     Get.put(LocationController());
-    Get.put(InstantWeatherController());
-    Get.put(HourlyForecastController());
+/*    Get.put(InstantWeatherController());
+    Get.put(HourlyForecastController());*/
   }
 }

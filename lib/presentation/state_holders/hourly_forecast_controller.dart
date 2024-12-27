@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'dart:developer';
 
@@ -44,7 +45,7 @@ class HourlyForecastController extends GetxController {
         return false;
       }
     } catch (e) {
-    //  _getHourlyForecastInProgress = false;
+      //  _getHourlyForecastInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {
@@ -59,3 +60,4 @@ class HourlyForecastController extends GetxController {
     super.onClose();
   }
 }
+*/
