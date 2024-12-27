@@ -22,8 +22,9 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  bool _isButton1Active = true;
-  bool _isButton2Active = false;
+  final ValueNotifier<bool> _isButton1ActiveNotifier = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _isButton2ActiveNotifier = ValueNotifier<bool>(false);
+
   @override
   void initState() {
     super.initState();
@@ -102,6 +103,52 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 children: [
                   SizedBox(
                     width: 108,
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _isButton1ActiveNotifier,
+                      builder: (context, isButton1Active, child) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isButton1Active
+                                ? Colors.blue.shade400
+                                : Colors.blue.shade600,
+                          ),
+                          onPressed: () {
+                            _isButton1ActiveNotifier.value = true;
+                            _isButton2ActiveNotifier.value = false;
+                          },
+                          child: Text('Today'),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 134,
+                    child: ValueListenableBuilder<bool>(
+                      valueListenable: _isButton2ActiveNotifier,
+                      builder: (context, isButton2Active, child) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isButton2Active
+                                ? Colors.blue.shade400
+                                : Colors.blue.shade600,
+                          ),
+                          onPressed: () {
+                            _isButton2ActiveNotifier.value = true;
+                            _isButton1ActiveNotifier.value = false;
+                          },
+                          child: Text('Next Days'),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              /* Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  SizedBox(
+                    width: 108,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _isButton1Active
@@ -133,19 +180,182 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
               SizedBox(
                 height: 16,
               ),
               SizedBox(
                 height: 165,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _isButton1ActiveNotifier,
+                  builder: (context, isButton1Active, child) {
+                    if (isButton1Active) {
+                      // If 'Today' button is active, display today's weather data
+                      return (locationController.hourlyWeatherListModel
+                                  ?.getTodaysWeatherData()
+                                  .isNotEmpty ??
+                              false)
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: locationController
+                                      .hourlyWeatherListModel
+                                      ?.getTodaysWeatherData()
+                                      .length ??
+                                  0,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Card(
+                                    color: Colors.blue.shade300,
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(26),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16, bottom: 16),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DateFormat('dd-MMM\nhh a').format(
+                                              DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                locationController
+                                                        .hourlyWeatherListModel!
+                                                        .getTodaysWeatherData()[
+                                                            index]
+                                                        .dt! *
+                                                    1000,
+                                              ),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Image.network(
+                                            Urls.getWeatherIcon(
+                                              locationController
+                                                  .hourlyWeatherListModel!
+                                                  .weatherData![index]
+                                                  .weather![0]
+                                                  .icon
+                                                  .toString(),
+                                            ),
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: Text(
+                                'Nothing to show',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                    } else {
+                      // If 'Next Days' button is active, display future weather data
+                      return (locationController.hourlyWeatherListModel
+                                  ?.getFutureWeatherData()
+                                  .isNotEmpty ??
+                              false)
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: locationController
+                                      .hourlyWeatherListModel
+                                      ?.getFutureWeatherData()
+                                      .length ??
+                                  5,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Card(
+                                    color: Colors.blue.shade300,
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(26),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 16, bottom: 16),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            DateFormat('dd-MMM\nhh a').format(
+                                              DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                locationController
+                                                        .hourlyWeatherListModel!
+                                                        .getFutureWeatherData()[
+                                                            index]
+                                                        .dt! *
+                                                    1000,
+                                              ),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Image.network(
+                                            Urls.getWeatherIcon(
+                                              locationController
+                                                  .hourlyWeatherListModel!
+                                                  .weatherData![index]
+                                                  .weather![0]
+                                                  .icon
+                                                  .toString(),
+                                            ),
+                                            height: 60,
+                                            width: 60,
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: Text(
+                                'Nothing to show',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                    }
+                  },
+                ),
+              ),
+
+              /*SizedBox(
+                height: 165,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   // itemCount: 5,
-                  itemCount: locationController.hourlyWeatherListModel
-                          ?.getCurrentAndFutureWeatherData()
-                          .length ??
-                      5,
+                  itemCount: _isButton1Active
+                      ? locationController.hourlyWeatherListModel
+                              ?.getTodaysWeatherData()
+                              .length ??
+                          5
+                      : locationController.hourlyWeatherListModel
+                              ?.getFutureWeatherData()
+                              .length ??
+                          5,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -191,7 +401,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     );
                   },
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: 16,
               ),
@@ -283,6 +493,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the ValueNotifiers when the widget is disposed
+    _isButton1ActiveNotifier.dispose();
+    _isButton2ActiveNotifier.dispose();
+    super.dispose();
   }
 }
 

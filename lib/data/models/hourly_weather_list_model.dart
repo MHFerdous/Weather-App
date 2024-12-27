@@ -35,13 +35,31 @@ class HourlyWeatherListModel {
     return data;
   }
 
-  List<WeatherData> getCurrentAndFutureWeatherData() {
+  List<WeatherData> getTodaysWeatherData() {
+    final currentDate = DateTime.now();
+    return weatherData?.where((data) {
+          final dataDate = DateTime.fromMillisecondsSinceEpoch(data.dt! * 1000);
+          return dataDate.day == currentDate.day;
+        }).toList() ??
+        [];
+  }
+
+  List<WeatherData> getFutureWeatherData() {
+    final currentDate = DateTime.now();
+    return weatherData?.where((data) {
+          final dataDate = DateTime.fromMillisecondsSinceEpoch(data.dt! * 1000);
+          return dataDate.isAfter(currentDate);
+        }).toList() ??
+        [];
+  }
+
+/*  List<WeatherData> getCurrentAndFutureWeatherData() {
     final currentTimeInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     return weatherData?.where((data) {
           return (data.dt ?? 0) >= currentTimeInSeconds;
         }).toList() ??
         [];
-  }
+  }*/
 }
 
 class WeatherData {
