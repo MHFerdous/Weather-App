@@ -33,12 +33,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<LocationController>().getMyLocation();
     });
-    Timer(
-      Duration(seconds: 6),
-      () => Get.to(
-        () => DashBoardScreen(),
-      ),
-    );
   }
 
   @override
@@ -90,10 +84,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           .toString() ??
                       'Loading'),
               CustomTempDisplay(
-                  iconId: locationController
-                      .instantWeatherListModel!.weather![0].icon!,
-                  temperature:
-                      '${locationController.instantWeatherListModel!.main?.temp} °C'),
+                iconId: locationController
+                    .instantWeatherListModel!.weather![0].icon!,
+                temperature: double.parse(locationController
+                    .instantWeatherListModel!.main!.temp!
+                    .toStringAsFixed(1)),
+              ),
               CustomDescriptionDisplay(
                 description: locationController
                         .instantWeatherListModel!.weather?[0].description
