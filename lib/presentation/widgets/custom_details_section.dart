@@ -18,80 +18,76 @@ class CustomDetailsSection extends StatefulWidget {
 class _CustomDetailsSectionState extends State<CustomDetailsSection> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LocationController>(builder: (locationController) {
-      /* if (locationController.getCartListInProgress ||
-          locationController.locationData == null) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }*/
-      return Expanded(
-        flex: 1,
-        child: Card(
-          elevation: 0,
-          color: Colors.transparent,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomDetailsCard(
-                  title: 'Sunrise',
-                  subTitle: '6:00am',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+    return GetBuilder<LocationController>(
+      builder: (locationController) {
+        return Expanded(
+          flex: 1,
+          child: Card(
+            elevation: 0,
+            color: Colors.transparent,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomDetailsCard(
+                    title: 'Sunrise',
+                    subTitle: '6:00am',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-                CustomDetailsCard(
-                  title: 'Sunset',
-                  subTitle: '6:00pm',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+                  CustomDetailsCard(
+                    title: 'Sunset',
+                    subTitle: '6:00pm',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-                CustomDetailsCard(
-                  title: 'Wind Speed',
-                  subTitle: 'speed',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+                  CustomDetailsCard(
+                    title: 'Wind Speed',
+                    subTitle: 'speed',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-                CustomDetailsCard(
-                  title: 'Humidity',
-                  subTitle: 'humidity',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+                  CustomDetailsCard(
+                    title: 'Humidity',
+                    subTitle: 'humidity',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-                CustomDetailsCard(
-                  title: 'Pressure',
-                  subTitle: 'pressure',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+                  CustomDetailsCard(
+                    title: 'Pressure',
+                    subTitle: 'pressure',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-                CustomDetailsCard(
-                  title: 'Visibility',
-                  subTitle: 'visibility',
-                  leadingIcon: SvgPicture.asset(
-                    ImageAndIconAssets.locationIconSVG,
-                    height: 50,
-                    width: 50,
+                  CustomDetailsCard(
+                    title: 'Visibility',
+                    subTitle: 'visibility',
+                    leadingIcon: SvgPicture.asset(
+                      ImageAndIconAssets.locationIconSVG,
+                      height: 50,
+                      width: 50,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

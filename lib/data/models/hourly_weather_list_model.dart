@@ -36,30 +36,30 @@ class HourlyWeatherListModel {
   }
 
   List<WeatherData> getTodaysWeatherData() {
-    final currentDate = DateTime.now();
+    final now = DateTime.now();
+    final todayStart = DateTime(now.year, now.month, now.day);
+    final todayEnd =
+        todayStart.add(Duration(days: 1)).subtract(Duration(seconds: 1));
+
     return weatherData?.where((data) {
           final dataDate = DateTime.fromMillisecondsSinceEpoch(data.dt! * 1000);
-          return dataDate.day == currentDate.day;
+          return dataDate.isAfter(todayStart) && dataDate.isBefore(todayEnd);
         }).toList() ??
         [];
   }
 
   List<WeatherData> getFutureWeatherData() {
     final currentDate = DateTime.now();
+    final tomorrowStart =
+        DateTime(currentDate.year, currentDate.month, currentDate.day + 1);
+
     return weatherData?.where((data) {
           final dataDate = DateTime.fromMillisecondsSinceEpoch(data.dt! * 1000);
-          return dataDate.isAfter(currentDate);
+          return dataDate.isAfter(tomorrowStart) ||
+              dataDate.isAtSameMomentAs(tomorrowStart);
         }).toList() ??
         [];
   }
-
-/*  List<WeatherData> getCurrentAndFutureWeatherData() {
-    final currentTimeInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    return weatherData?.where((data) {
-          return (data.dt ?? 0) >= currentTimeInSeconds;
-        }).toList() ??
-        [];
-  }*/
 }
 
 class WeatherData {

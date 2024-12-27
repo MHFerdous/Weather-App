@@ -13,10 +13,7 @@ class LocationController extends GetxController {
   bool _getLocationInProgress = false;
   bool _getHourlyForecastInProgress = false;
   bool _getInstantWeatherInProgress = false;
-/*  InstantWeatherController instantWeatherController =
-      InstantWeatherController();
-  HourlyForecastController hourlyForecastController =
-      HourlyForecastController();*/
+
   HourlyWeatherListModel _hourlyWeatherListModel = HourlyWeatherListModel();
   InstantWeatherListModel _instantWeatherListModel = InstantWeatherListModel();
   LocationData? _myCurrentLocation;
@@ -45,16 +42,8 @@ class LocationController extends GetxController {
       log('My Current Location: ${_myCurrentLocation.toString()}');
 
       if (_myCurrentLocation != null) {
-        /*await instantWeatherController.getInstantWeather(
-          _myCurrentLocation!.latitude!,
-          _myCurrentLocation!.longitude!,
-        );*/
         await getInstantWeather();
         await getHourlyWeather();
-        /*await hourlyForecastController.getHourlyWeather(
-          _myCurrentLocation!.latitude!,
-          _myCurrentLocation!.longitude!,
-        );*/
       }
       update();
     } catch (e) {
@@ -91,14 +80,10 @@ class LocationController extends GetxController {
             _myCurrentLocation!.latitude!, _myCurrentLocation!.longitude!),
       ).timeout(const Duration(seconds: 10));
 
-      //_getInstantWeatherInProgress = false;
-
       if (response.isSuccess && response.responseJson != null) {
         _instantWeatherListModel =
             InstantWeatherListModel.fromJson(response.responseJson!);
         update();
-        log('API Response: ${response.responseJson}');
-        log('Parsed Model: ${_instantWeatherListModel.toJson()}');
 
         return true;
       } else {
@@ -106,7 +91,6 @@ class LocationController extends GetxController {
         return false;
       }
     } catch (e) {
-      // _getInstantWeatherInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {
@@ -136,7 +120,6 @@ class LocationController extends GetxController {
         return false;
       }
     } catch (e) {
-      //  _getHourlyForecastInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {

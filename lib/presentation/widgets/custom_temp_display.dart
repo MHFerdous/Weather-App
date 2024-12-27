@@ -60,7 +60,7 @@ class _CustomTempDisplayState extends State<CustomTempDisplay> {
     } else {
       _tempNotifier.value = (_tempNotifier.value - 32) * 5 / 9;
     }
-    _isCelsiusNotifier.value = !_isCelsiusNotifier.value; // Toggle the state
+    _isCelsiusNotifier.value = !_isCelsiusNotifier.value;
   }
 
   @override

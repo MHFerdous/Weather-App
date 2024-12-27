@@ -38,10 +38,6 @@ class NetworkCaller {
     try {
       Response response = await post(
         Uri.parse(url),
-        /*headers: {
-          'Content-Type': 'application/json',
-          'token': AuthController.accessToken.toString()
-        },*/
         body: jsonEncode(body),
       );
       log(
