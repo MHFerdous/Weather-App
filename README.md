@@ -48,6 +48,7 @@ This app detects the user's current location and fetches weather information, in
 - Displays forecast data horizontally in cards, including date, temperature and weather icons.
 
 ### **4. Additional Weather information**
+
 - Displays detailed weather information such as:
   - Sunrise & sunset times
   - Wind speed
@@ -57,3 +58,8 @@ This app detects the user's current location and fetches weather information, in
 
 ---
 
+### **ScreenShot**
+
+![Screenshot_20241228_012805](https://github.com/user-attachments/assets/28ad5853-bbe2-4c58-8627-dc88fcc53f51)
+
+---
