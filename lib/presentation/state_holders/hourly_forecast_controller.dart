@@ -32,9 +32,7 @@ class HourlyForecastController extends GetxController {
     try {
       final NetworkResponse response = await NetworkCaller.getRequest(
         Urls.getHourlyWeather(latitude, longitude),
-      ).timeout(const Duration(seconds: 10));
-
-      _getHourlyForecastInProgress = false;
+      );
 
       if (response.isSuccess && response.responseJson != null) {
         _hourlyWeatherListModel =
@@ -46,10 +44,11 @@ class HourlyForecastController extends GetxController {
         return false;
       }
     } catch (e) {
-      _getHourlyForecastInProgress = false;
+    //  _getHourlyForecastInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {
+      _getHourlyForecastInProgress = false;
       update();
     }
   }

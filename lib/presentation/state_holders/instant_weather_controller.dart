@@ -23,22 +23,26 @@ class InstantWeatherController extends GetxController {
         Urls.getInstantWeather(latitude, longitude),
       ).timeout(const Duration(seconds: 10));
 
-      _getInstantWeatherInProgress = false;
+      //_getInstantWeatherInProgress = false;
 
       if (response.isSuccess && response.responseJson != null) {
         _instantWeatherListModel =
             InstantWeatherListModel.fromJson(response.responseJson!);
         update();
+        log('API Response: ${response.responseJson}');
+        log('Parsed Model: ${_instantWeatherListModel.toJson()}');
+
         return true;
       } else {
         log('Failed to fetch hourly weather');
         return false;
       }
     } catch (e) {
-      _getInstantWeatherInProgress = false;
+     // _getInstantWeatherInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {
+      _getInstantWeatherInProgress = false;
       update();
     }
   }

@@ -34,8 +34,9 @@ class LocationController extends GetxController {
         return;
       }
 
+      update();
       _myCurrentLocation = await Location.instance.getLocation();
-      log('Current Location: ${_myCurrentLocation.toString()}');
+      log('My Current Location: ${_myCurrentLocation.toString()}');
 
       if (_myCurrentLocation != null) {
         await instantWeatherController.getInstantWeather(

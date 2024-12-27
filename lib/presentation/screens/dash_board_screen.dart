@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -54,229 +56,218 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   Widget _buildSmallPhoneLayout() {
-    return GetBuilder<HourlyForecastController>(
-        builder: (hourlyForecastController) {
+    return GetBuilder<LocationController>(builder: (locationController) {
       return GetBuilder<InstantWeatherController>(
         builder: (instantWeatherController) {
-          if (instantWeatherController.getInstantWeatherInProgress ||
-              hourlyForecastController.getHourlyForecastInProgress) {
+          if (instantWeatherController.getInstantWeatherInProgress) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (instantWeatherController.instantWeatherListModel == null ||
-              hourlyForecastController.hourlyWeatherListModel == null) {
-            return Center(
-              child: Text('Data is loading...'),
-            );
-          }
+          log(instantWeatherController.instantWeatherListModel!.cod.toString());
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 8,
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                CustomLocationDisplay(
-                    location: instantWeatherController
-                            .instantWeatherListModel?.name
+            child: Text('data'),
+            /*Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  CustomLocationDisplay(
+                      location: instantWeatherController
+                              .instantWeatherListModel?.name
+                              .toString() ??
+                          'Loading'),
+                  CustomTempDisplay(
+                      temperature:
+                          '${instantWeatherController.instantWeatherListModel!.main?.temp} °C'),
+                  CustomDescriptionDisplay(
+                    description: instantWeatherController
+                            .instantWeatherListModel!.weather?[0].description
                             .toString() ??
-                        'Loading'),
-                CustomTempDisplay(
-                    temperature:
-                        '${instantWeatherController.instantWeatherListModel!.main?.temp} °C'),
-                CustomDescriptionDisplay(
-                  description: instantWeatherController
-                          .instantWeatherListModel!.weather?[0].description
-                          .toString() ??
-                      'loading',
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 8,
-                  children: [
-                    SizedBox(
-                      width: 108,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButton1Active
-                              ? Colors.blue.shade400
-                              : Colors.blue.shade600,
+                        'loading',
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 8,
+                    children: [
+                      SizedBox(
+                        width: 108,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _isButton1Active
+                                ? Colors.blue.shade400
+                                : Colors.blue.shade600,
+                          ),
+                          onPressed: () {
+                            _isButton1Active = true;
+                            _isButton2Active = false;
+                            setState(() {});
+                          },
+                          child: Text('Today'),
                         ),
-                        onPressed: () {
-                          _isButton1Active = true;
-                          _isButton2Active = false;
-                          setState(() {});
-                        },
-                        child: Text('Today'),
                       ),
-                    ),
-                    SizedBox(
-                      width: 134,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _isButton2Active
-                              ? Colors.lightBlue
-                              : Colors.blue.shade500,
+                      SizedBox(
+                        width: 134,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _isButton2Active
+                                ? Colors.lightBlue
+                                : Colors.blue.shade500,
+                          ),
+                          onPressed: () {
+                            _isButton2Active = true;
+                            _isButton1Active = false;
+                            setState(() {});
+                          },
+                          child: Text('Next Days'),
                         ),
-                        onPressed: () {
-                          _isButton2Active = true;
-                          _isButton1Active = false;
-                          setState(() {});
-                        },
-                        child: Text('Next Days'),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                  height: 160,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    // itemCount: 5,
-                    itemCount: hourlyForecastController
-                            .hourlyWeatherListModel?.weatherData?.length ??
-                        5,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: SizedBox(
-                          height: 158,
-                          width: 72,
-                          child: Card(
-                            color: Colors.blue.shade300,
-                            elevation: 4.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(26),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 16, bottom: 16),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    DateFormat('hh a').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                        hourlyForecastController
-                                                .hourlyWeatherListModel!
-                                                .weatherData![index]
-                                                .dt! *
-                                            1000,
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                    height: 160,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      */ /* itemCount: hourlyForecastController
+                                .hourlyWeatherListModel?.weatherData?.length ??
+                            5,*/ /*
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: SizedBox(
+                            height: 158,
+                            width: 72,
+                            child: Card(
+                              color: Colors.blue.shade300,
+                              elevation: 4.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(26),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16, bottom: 16),
+                                child: Column(
+                                  children: [
+                                    */ /*Text(
+                                        DateFormat('hh a').format(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                            hourlyForecastController
+                                                    .hourlyWeatherListModel!
+                                                    .weatherData![index]
+                                                    .dt! *
+                                                1000,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    '${hourlyForecastController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
-                                  ),
-                                ],
+                                      Spacer(),
+                                      Text(
+                                        '${hourlyForecastController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                      ),*/ /*
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Card(
-                    elevation: 0,
-                    color: Colors.transparent,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          CustomDetailsCard(
-                            title: 'Sunrise',
-                            subTitle: DateFormat('hh:mm a').format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                instantWeatherController
-                                        .instantWeatherListModel!
-                                        .sys!
-                                        .sunrise! *
-                                    1000,
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                      elevation: 0,
+                      color: Colors.transparent,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            CustomDetailsCard(
+                              title: 'Sunrise',
+                              subTitle: DateFormat('hh:mm a').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                  instantWeatherController
+                                          .instantWeatherListModel!.sys!.sunrise! *
+                                      1000,
+                                ),
+                              ),
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
                               ),
                             ),
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                          CustomDetailsCard(
-                            title: 'Sunset',
-                            subTitle: DateFormat('hh:mm a').format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                instantWeatherController
-                                        .instantWeatherListModel!
-                                        .sys!
-                                        .sunrise! *
-                                    1000,
+                            CustomDetailsCard(
+                              title: 'Sunset',
+                              subTitle: DateFormat('hh:mm a').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                  instantWeatherController
+                                          .instantWeatherListModel!.sys!.sunrise! *
+                                      1000,
+                                ),
+                              ),
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
                               ),
                             ),
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
+                            CustomDetailsCard(
+                              title: 'Wind Speed',
+                              subTitle:
+                                  '${instantWeatherController.instantWeatherListModel?.wind?.speed} m/s',
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
-                          ),
-                          CustomDetailsCard(
-                            title: 'Wind Speed',
-                            subTitle:
-                                '${instantWeatherController.instantWeatherListModel?.wind?.speed} m/s',
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
+                            CustomDetailsCard(
+                              title: 'Humidity',
+                              subTitle:
+                                  '${instantWeatherController.instantWeatherListModel?.main?.humidity} %',
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
-                          ),
-                          CustomDetailsCard(
-                            title: 'Humidity',
-                            subTitle:
-                                '${instantWeatherController.instantWeatherListModel?.main?.humidity} %',
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
+                            CustomDetailsCard(
+                              title: 'Pressure',
+                              subTitle:
+                                  '${instantWeatherController.instantWeatherListModel?.main?.pressure} hPa',
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
-                          ),
-                          CustomDetailsCard(
-                            title: 'Pressure',
-                            subTitle:
-                                '${instantWeatherController.instantWeatherListModel?.main?.pressure} hPa',
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
+                            CustomDetailsCard(
+                              title: 'Visibility',
+                              subTitle:
+                                  '${instantWeatherController.instantWeatherListModel?.visibility} m',
+                              leadingIcon: SvgPicture.asset(
+                                ImageAndIconAssets.locationIconSVG,
+                                height: 50,
+                                width: 50,
+                              ),
                             ),
-                          ),
-                          CustomDetailsCard(
-                            title: 'Visibility',
-                            subTitle:
-                                '${instantWeatherController.instantWeatherListModel?.visibility} m',
-                            leadingIcon: SvgPicture.asset(
-                              ImageAndIconAssets.locationIconSVG,
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),*/
           );
         },
       );
