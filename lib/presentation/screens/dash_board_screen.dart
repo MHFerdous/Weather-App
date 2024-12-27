@@ -89,6 +89,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           .toString() ??
                       'Loading'),
               CustomTempDisplay(
+                  iconId: locationController
+                      .instantWeatherListModel!.weather![0].icon!,
                   temperature:
                       '${locationController.instantWeatherListModel!.main?.temp} °C'),
               CustomDescriptionDisplay(
@@ -165,21 +167,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                             padding: const EdgeInsets.only(top: 16, bottom: 16),
                             child: Column(
                               children: [
-                                /*Text(
-                                      DateFormat('hh a').format(
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                          hourlyForecastController
-                                                  .hourlyWeatherListModel!
-                                                  .weatherData![index]
-                                                  .dt! *
-                                              1000,
-                                        ),
-                                      ),
-                                    ),*/
+                                Text(
+                                  DateFormat('hh a').format(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                      locationController.hourlyWeatherListModel!
+                                              .weatherData![index].dt! *
+                                          1000,
+                                    ),
+                                  ),
+                                ),
                                 Spacer(),
-                                /*Text(
-                                      '${hourlyForecastController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
-                                    ),*/
+                                Text(
+                                  '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                ),
                               ],
                             ),
                           ),
@@ -200,40 +200,36 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        /*CustomDetailsCard(
-                              title: 'Sunrise',
-                              subTitle: DateFormat('hh:mm a').format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                  instantWeatherController
-                                          .instantWeatherListModel!
-                                          .sys!
-                                          .sunrise! *
-                                      1000,
-                                ),
-                              ),
-                              leadingIcon: SvgPicture.asset(
-                                ImageAndIconAssets.locationIconSVG,
-                                height: 50,
-                                width: 50,
-                              ),
+                        CustomDetailsCard(
+                          title: 'Sunrise',
+                          subTitle: DateFormat('hh:mm a').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              locationController
+                                      .instantWeatherListModel!.sys!.sunrise! *
+                                  1000,
                             ),
-                            CustomDetailsCard(
-                              title: 'Sunset',
-                              subTitle: DateFormat('hh:mm a').format(
-                                DateTime.fromMillisecondsSinceEpoch(
-                                  instantWeatherController
-                                          .instantWeatherListModel!
-                                          .sys!
-                                          .sunrise! *
-                                      1000,
-                                ),
-                              ),
-                              leadingIcon: SvgPicture.asset(
-                                ImageAndIconAssets.locationIconSVG,
-                                height: 50,
-                                width: 50,
-                              ),
-                            ),*/
+                          ),
+                          leadingIcon: SvgPicture.asset(
+                            ImageAndIconAssets.locationIconSVG,
+                            height: 50,
+                            width: 50,
+                          ),
+                        ),
+                        CustomDetailsCard(
+                          title: 'Sunset',
+                          subTitle: DateFormat('hh:mm a').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              locationController
+                                      .instantWeatherListModel!.sys!.sunrise! *
+                                  1000,
+                            ),
+                          ),
+                          leadingIcon: SvgPicture.asset(
+                            ImageAndIconAssets.locationIconSVG,
+                            height: 50,
+                            width: 50,
+                          ),
+                        ),
                         CustomDetailsCard(
                           title: 'Wind Speed',
                           subTitle:

@@ -8,8 +8,6 @@ import 'package:weather_app_flutter/data/models/hourly_weather_list_model.dart';
 import 'package:weather_app_flutter/data/models/network_response.dart';
 import 'package:weather_app_flutter/data/services/network_caller.dart';
 import 'package:weather_app_flutter/data/utility/urls.dart';
-import 'package:weather_app_flutter/presentation/state_holders/hourly_forecast_controller.dart';
-import 'package:weather_app_flutter/presentation/state_holders/instant_weather_controller.dart';
 
 class LocationController extends GetxController {
   bool _getLocationInProgress = false;

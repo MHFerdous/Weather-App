@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:weather_app_flutter/presentation/utility/image_icon_assets.dart';
+import 'package:weather_app_flutter/data/utility/urls.dart';
 
 class CustomTempDisplay extends StatefulWidget {
   const CustomTempDisplay({
     super.key,
     required this.temperature,
+    required this.iconId,
   });
   final String temperature;
+  final String iconId;
 
   @override
   State<CustomTempDisplay> createState() => _CustomTempDisplayState();
@@ -20,10 +21,10 @@ class _CustomTempDisplayState extends State<CustomTempDisplay> {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 8,
       children: [
-        SvgPicture.asset(
-          ImageAndIconAssets.locationIconSVG,
-          width: 135,
-          height: 130,
+        Image.network(
+          Urls.getWeatherIcon(widget.iconId),
+          height: 100,
+          width: 100,
         ),
         Text(
           widget.temperature,
