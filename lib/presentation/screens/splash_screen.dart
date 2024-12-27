@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:weather_app_flutter/presentation/screens/dash_board_screen.dart';
+import 'package:weather_app_flutter/presentation/state_holders/location_controller.dart';
 import 'package:weather_app_flutter/presentation/utility/app_colors.dart';
 import 'package:weather_app_flutter/presentation/utility/image_icon_assets.dart';
 import 'package:weather_app_flutter/presentation/widgets/responsive_builder.dart';
@@ -19,8 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<LocationController>().getMyLocation();
+    });
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 6),
       () => Get.to(
         () => DashBoardScreen(),
       ),

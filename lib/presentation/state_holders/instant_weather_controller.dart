@@ -38,7 +38,7 @@ class InstantWeatherController extends GetxController {
         return false;
       }
     } catch (e) {
-     // _getInstantWeatherInProgress = false;
+      // _getInstantWeatherInProgress = false;
       log('Error fetching hourly weather: $e');
       return false;
     } finally {

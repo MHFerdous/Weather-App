@@ -9,6 +9,7 @@ import 'package:weather_app_flutter/presentation/state_holders/hourly_forecast_c
 import 'package:weather_app_flutter/presentation/state_holders/instant_weather_controller.dart';
 
 class LocationController extends GetxController {
+  bool _getLocationInProgress = false;
   InstantWeatherController instantWeatherController =
       InstantWeatherController();
   HourlyForecastController hourlyForecastController =
@@ -20,6 +21,7 @@ class LocationController extends GetxController {
   LocationData? _myCurrentLocation;
   StreamSubscription? _locationSubscription;
 
+  bool get locationInProgress => _getLocationInProgress;
   HourlyWeatherListModel? get hourlyWeatherListModel => _hourlyWeatherListModel;
   InstantWeatherListModel? get instantWeatherListModel =>
       _instantWeatherListModel;
@@ -27,6 +29,8 @@ class LocationController extends GetxController {
   StreamSubscription? get streamSubscription => _locationSubscription;
 
   Future<void> getMyLocation() async {
+    _getLocationInProgress = true;
+    update();
     try {
       final permissionGranted = await Location.instance.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
@@ -52,6 +56,8 @@ class LocationController extends GetxController {
     } catch (e) {
       log('Error getting location: $e');
     }
+    _getLocationInProgress = false;
+    update();
   }
 
   void listenToMyLocation() {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -31,6 +32,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<LocationController>().getMyLocation();
     });
+    Timer(
+      Duration(seconds: 6),
+      () => Get.to(
+        () => DashBoardScreen(),
+      ),
+    );
   }
 
   @override
@@ -57,17 +64,23 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Widget _buildSmallPhoneLayout() {
     return GetBuilder<LocationController>(builder: (locationController) {
-      return GetBuilder<InstantWeatherController>(
-        builder: (instantWeatherController) {
-          if (instantWeatherController.getInstantWeatherInProgress) {
+      return GetBuilder<HourlyForecastController>(
+          builder: (hourlyForecastController) {
+        return GetBuilder<InstantWeatherController>(
+          builder: (instantWeatherController) {
+            if (instantWeatherController.getInstantWeatherInProgress ||
+                hourlyForecastController.getHourlyForecastInProgress ||
+                locationController.locationInProgress) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            log(instantWeatherController.getInstantWeatherInProgress.toString());
+            log('code: ${instantWeatherController.instantWeatherListModel!.cod.toString()}');
+            log('name: ${instantWeatherController.instantWeatherListModel!.name.toString()}');
+
             return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          log(instantWeatherController.instantWeatherListModel!.cod.toString());
-          return Center(
-            child: Text('data'),
-            /*Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 8,
                 children: [
@@ -137,9 +150,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: 5,
-                      */ /* itemCount: hourlyForecastController
-                                .hourlyWeatherListModel?.weatherData?.length ??
-                            5,*/ /*
+                      /* itemCount: hourlyForecastController
+                                    .hourlyWeatherListModel?.weatherData?.length ??
+                                5,*/
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -153,24 +166,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 borderRadius: BorderRadius.circular(26),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 16, bottom: 16),
+                                padding:
+                                    const EdgeInsets.only(top: 16, bottom: 16),
                                 child: Column(
                                   children: [
-                                    */ /*Text(
-                                        DateFormat('hh a').format(
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                            hourlyForecastController
-                                                    .hourlyWeatherListModel!
-                                                    .weatherData![index]
-                                                    .dt! *
-                                                1000,
-                                          ),
+                                    /*Text(
+                                      DateFormat('hh a').format(
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                          hourlyForecastController
+                                                  .hourlyWeatherListModel!
+                                                  .weatherData![index]
+                                                  .dt! *
+                                              1000,
                                         ),
                                       ),
-                                      Spacer(),
-                                      Text(
-                                        '${hourlyForecastController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
-                                      ),*/ /*
+                                    ),*/
+                                    Spacer(),
+                                    /*Text(
+                                      '${hourlyForecastController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -191,12 +205,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            CustomDetailsCard(
+                            /*CustomDetailsCard(
                               title: 'Sunrise',
                               subTitle: DateFormat('hh:mm a').format(
                                 DateTime.fromMillisecondsSinceEpoch(
                                   instantWeatherController
-                                          .instantWeatherListModel!.sys!.sunrise! *
+                                          .instantWeatherListModel!
+                                          .sys!
+                                          .sunrise! *
                                       1000,
                                 ),
                               ),
@@ -211,7 +227,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               subTitle: DateFormat('hh:mm a').format(
                                 DateTime.fromMillisecondsSinceEpoch(
                                   instantWeatherController
-                                          .instantWeatherListModel!.sys!.sunrise! *
+                                          .instantWeatherListModel!
+                                          .sys!
+                                          .sunrise! *
                                       1000,
                                 ),
                               ),
@@ -220,7 +238,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 height: 50,
                                 width: 50,
                               ),
-                            ),
+                            ),*/
                             CustomDetailsCard(
                               title: 'Wind Speed',
                               subTitle:
@@ -267,10 +285,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     ),
                   ),
                 ],
-              ),*/
-          );
-        },
-      );
+              ),
+            );
+          },
+        );
+      });
     });
   }
 }
