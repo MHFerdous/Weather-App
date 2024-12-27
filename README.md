@@ -1,16 +1,59 @@
-# weather_app_flutter
+# **Weather App**
 
-A new Flutter project.
+This app detects the user's current location and fetches weather information, including temperature and forecasts, using the OpenWeather API.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+### **APK File** 
 
-A few resources to get you started if this is your first Flutter project:
+[Click here](https://drive.google.com/drive/folders/1vh5AAkcf95zs0MjaBu-hA0tCCH2SDLsi?usp=sharing)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### **Setup Steps**
+
+1. **Clone the Repository**  
+   ```bash
+   git clone https://github.com/MHFerdous/weather_app
+   ```
+   ```bash
+   cd weather_app
+   ```
+   ```bash
+   flutter pub get
+   flutter run
+   ```
+
+   ---
+
+
+## **Tech Stack**
+
+- **Framework:** Flutter
+- **Controller:** GetX
+
+---
+
+## **Features**
+
+### **1. Location Detection**
+- Automatically detects the user's current location using the device's GPS.
+- Displays the detected location at the top of the screen.
+
+### **2. Temperature Display**
+- Fetches and displays the current temperature and a corresponding weather icon using the OpenWeather API.
+
+### **3. forecast for Today and Upcoming Days**
+- Provides a button to toggle between today's temperature and a 5-day forecast.
+- Displays forecast data horizontally in cards, including date, temperature and weather icons.
+
+### **4. Additional Weather information**
+- Displays detailed weather information such as:
+  - Sunrise & sunset times
+  - Wind speed
+  - Atmospheric pressure
+  - Visibility
+- Presented in a vertical card layout.
+
+---
+
