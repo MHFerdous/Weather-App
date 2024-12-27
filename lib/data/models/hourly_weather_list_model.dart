@@ -5,7 +5,8 @@ class HourlyWeatherListModel {
   List<WeatherData>? weatherData;
   City? city;
 
-  HourlyWeatherListModel({this.cod, this.message, this.cnt, this.weatherData, this.city});
+  HourlyWeatherListModel(
+      {this.cod, this.message, this.cnt, this.weatherData, this.city});
 
   HourlyWeatherListModel.fromJson(Map<String, dynamic> json) {
     cod = json['cod'];
@@ -33,6 +34,14 @@ class HourlyWeatherListModel {
     }
     return data;
   }
+
+  List<WeatherData> getCurrentAndFutureWeatherData() {
+    final currentTimeInSeconds = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    return weatherData?.where((data) {
+          return (data.dt ?? 0) >= currentTimeInSeconds;
+        }).toList() ??
+        [];
+  }
 }
 
 class WeatherData {
@@ -48,14 +57,14 @@ class WeatherData {
 
   WeatherData(
       {this.dt,
-        this.main,
-        this.weather,
-        this.clouds,
-        this.wind,
-        this.visibility,
-        this.pop,
-        this.sys,
-        this.dtTxt});
+      this.main,
+      this.weather,
+      this.clouds,
+      this.wind,
+      this.visibility,
+      this.pop,
+      this.sys,
+      this.dtTxt});
 
   WeatherData.fromJson(Map<String, dynamic> json) {
     dt = json['dt'];
@@ -112,14 +121,14 @@ class Main {
 
   Main(
       {this.temp,
-        this.feelsLike,
-        this.tempMin,
-        this.tempMax,
-        this.pressure,
-        this.seaLevel,
-        this.grndLevel,
-        this.humidity,
-        this.tempKf});
+      this.feelsLike,
+      this.tempMin,
+      this.tempMax,
+      this.pressure,
+      this.seaLevel,
+      this.grndLevel,
+      this.humidity,
+      this.tempKf});
 
   Main.fromJson(Map<String, dynamic> json) {
     temp = json['temp']?.toDouble();

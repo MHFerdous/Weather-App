@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -6,8 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter/data/utility/urls.dart';
-import 'package:weather_app_flutter/presentation/state_holders/hourly_forecast_controller.dart';
-import 'package:weather_app_flutter/presentation/state_holders/instant_weather_controller.dart';
 import 'package:weather_app_flutter/presentation/state_holders/location_controller.dart';
 import 'package:weather_app_flutter/presentation/utility/app_colors.dart';
 import 'package:weather_app_flutter/presentation/utility/image_icon_assets.dart';
@@ -141,54 +138,53 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 height: 16,
               ),
               SizedBox(
-                height: 160,
+                height: 165,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   // itemCount: 5,
-                  itemCount: locationController
-                          .hourlyWeatherListModel?.weatherData?.length ??
+                  itemCount: locationController.hourlyWeatherListModel
+                          ?.getCurrentAndFutureWeatherData()
+                          .length ??
                       5,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: SizedBox(
-                        height: 158,
-                        width: 72,
-                        child: Card(
-                          color: Colors.blue.shade300,
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(26),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16, bottom: 16),
-                            child: Column(
-                              children: [
-                                Text(
-                                  DateFormat('hh a').format(
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                      locationController.hourlyWeatherListModel!
-                                              .weatherData![index].dt! *
-                                          1000,
-                                    ),
-                                  ),
-                                ),
-                                Spacer(),
-                                Image.network(
-                                  Urls.getWeatherIcon(
+                      child: Card(
+                        color: Colors.blue.shade300,
+                        elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(26),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16, bottom: 16),
+                          child: Column(
+                            children: [
+                              Text(
+                                DateFormat('dd-MMM\nhh a').format(
+                                  DateTime.fromMillisecondsSinceEpoch(
                                     locationController.hourlyWeatherListModel!
-                                        .weatherData![index].weather![0].icon
-                                        .toString(),
+                                            .getCurrentAndFutureWeatherData()[
+                                                index]
+                                            .dt! *
+                                        1000,
                                   ),
-                                  height: 60,
-                                  width: 60,
                                 ),
-                                Spacer(),
-                                Text(
-                                  '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                              ),
+                              Spacer(),
+                              Image.network(
+                                Urls.getWeatherIcon(
+                                  locationController.hourlyWeatherListModel!
+                                      .weatherData![index].weather![0].icon
+                                      .toString(),
                                 ),
-                              ],
-                            ),
+                                height: 60,
+                                width: 60,
+                              ),
+                              Spacer(),
+                              Text(
+                                '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                              ),
+                            ],
                           ),
                         ),
                       ),

@@ -129,6 +129,7 @@ class LocationController extends GetxController {
         _hourlyWeatherListModel =
             HourlyWeatherListModel.fromJson(response.responseJson!);
         update();
+
         return true;
       } else {
         log('Failed to fetch hourly weather');
