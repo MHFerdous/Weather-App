@@ -37,9 +37,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightThemeData.primaryColor,
-      body: ResponsiveBuilder(
-        phone: _buildPhoneLayout(),
-        smallPhone: _buildSmallPhoneLayout(),
+      body: SafeArea(
+        child: ResponsiveBuilder(
+          phone: _buildPhoneLayout(),
+          smallPhone: _buildSmallPhoneLayout(),
+        ),
       ),
     );
   }
@@ -74,9 +76,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 8,
             children: [
-              SizedBox(
-                height: 50,
-              ),
               CustomLocationDisplay(
                   location: locationController.instantWeatherListModel?.name
                           .toString() ??
@@ -182,15 +181,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ],
               ),*/
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               SizedBox(
-                height: 165,
+                height: 148,
                 child: ValueListenableBuilder<bool>(
                   valueListenable: _isButton1ActiveNotifier,
                   builder: (context, isButton1Active, child) {
                     if (isButton1Active) {
-                      // If 'Today' button is active, display today's weather data
                       return (locationController.hourlyWeatherListModel
                                   ?.getTodaysWeatherData()
                                   .isNotEmpty ??
@@ -214,7 +212,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 16, bottom: 16),
+                                          top: 10, bottom: 16),
                                       child: Column(
                                         children: [
                                           Text(
@@ -240,12 +238,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                                   .icon
                                                   .toString(),
                                             ),
-                                            height: 60,
-                                            width: 60,
+                                            height: 50,
+                                            width: 50,
                                           ),
                                           Spacer(),
                                           Text(
-                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toStringAsFixed(1)}°C',
                                           ),
                                         ],
                                       ),
@@ -264,7 +262,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                             );
                     } else {
-                      // If 'Next Days' button is active, display future weather data
                       return (locationController.hourlyWeatherListModel
                                   ?.getFutureWeatherData()
                                   .isNotEmpty ??
@@ -288,7 +285,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 16, bottom: 16),
+                                          top: 10, bottom: 10),
                                       child: Column(
                                         children: [
                                           Text(
@@ -319,7 +316,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           ),
                                           Spacer(),
                                           Text(
-                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toString()}°C',
+                                            '${locationController.hourlyWeatherListModel!.weatherData![index].main!.temp!.toStringAsFixed(1)}°C',
                                           ),
                                         ],
                                       ),
@@ -403,7 +400,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
               ),*/
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               Expanded(
                 flex: 1,
@@ -424,8 +421,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                         CustomDetailsCard(
@@ -439,8 +436,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           ),
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                         CustomDetailsCard(
@@ -449,8 +446,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               '${locationController.instantWeatherListModel?.wind?.speed} m/s',
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                         CustomDetailsCard(
@@ -459,8 +456,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               '${locationController.instantWeatherListModel?.main?.humidity} %',
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                         CustomDetailsCard(
@@ -469,8 +466,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               '${locationController.instantWeatherListModel?.main?.pressure} hPa',
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                         CustomDetailsCard(
@@ -479,8 +476,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               '${locationController.instantWeatherListModel?.visibility} m',
                           leadingIcon: SvgPicture.asset(
                             ImageAndIconAssets.locationIconSVG,
-                            height: 50,
-                            width: 50,
+                            height: 45,
+                            width: 45,
                           ),
                         ),
                       ],
@@ -497,7 +494,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   void dispose() {
-    // Dispose of the ValueNotifiers when the widget is disposed
     _isButton1ActiveNotifier.dispose();
     _isButton2ActiveNotifier.dispose();
     super.dispose();

@@ -15,7 +15,7 @@ class CustomDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 88,
+      height: 80,
       width: 326,
       child: Card(
         color: Colors.blue.shade500,
@@ -35,7 +35,7 @@ class CustomDetailsCard extends StatelessWidget {
               subtitle: Text(
                 subTitle,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Colors.white70,
                 ),
