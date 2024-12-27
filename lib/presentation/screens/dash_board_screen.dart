@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app_flutter/data/utility/urls.dart';
 import 'package:weather_app_flutter/presentation/state_holders/hourly_forecast_controller.dart';
 import 'package:weather_app_flutter/presentation/state_holders/instant_weather_controller.dart';
 import 'package:weather_app_flutter/presentation/state_holders/location_controller.dart';
@@ -147,10 +148,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 height: 160,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  /* itemCount: hourlyForecastController
-                                    .hourlyWeatherListModel?.weatherData?.length ??
-                                5,*/
+                  // itemCount: 5,
+                  itemCount: locationController
+                          .hourlyWeatherListModel?.weatherData?.length ??
+                      5,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -175,6 +176,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                           1000,
                                     ),
                                   ),
+                                ),
+                                Spacer(),
+                                Image.network(
+                                  Urls.getWeatherIcon(
+                                    locationController.hourlyWeatherListModel!
+                                        .weatherData![index].weather![0].icon
+                                        .toString(),
+                                  ),
+                                  height: 60,
+                                  width: 60,
                                 ),
                                 Spacer(),
                                 Text(
