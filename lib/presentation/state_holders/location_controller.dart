@@ -26,26 +26,40 @@ class LocationController extends GetxController {
   LocationData? get locationData => _myCurrentLocation;
   StreamSubscription? get streamSubscription => _locationSubscription;
 
-  void getMyLocation() async {
-    await Location.instance.requestPermission().then((requestedPermission) {
-      log(requestedPermission.toString());
-    });
-    await Location.instance.hasPermission().then((permissionStatus) {
-      log(permissionStatus.toString());
-    });
-    _myCurrentLocation = await Location.instance.getLocation();
-    log(_myCurrentLocation.toString());
-    await instantWeatherController.getInstantWeather();
-    await hourlyForecastController.getHourlyWeather();
-    update();
+  Future<void> getMyLocation() async {
+    try {
+      final permissionGranted = await Location.instance.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        log('Location permission not granted.');
+        return;
+      }
+
+      _myCurrentLocation = await Location.instance.getLocation();
+      log('Current Location: ${_myCurrentLocation.toString()}');
+
+      if (_myCurrentLocation != null) {
+        await instantWeatherController.getInstantWeather(
+          _myCurrentLocation!.latitude!,
+          _myCurrentLocation!.longitude!,
+        );
+        await hourlyForecastController.getHourlyWeather(
+          _myCurrentLocation!.latitude!,
+          _myCurrentLocation!.longitude!,
+        );
+      }
+      update();
+    } catch (e) {
+      log('Error getting location: $e');
+    }
   }
 
   void listenToMyLocation() {
     _locationSubscription =
         Location.instance.onLocationChanged.listen((location) {
-      if (location != _myCurrentLocation) {
+      if (location.latitude != _myCurrentLocation?.latitude ||
+          location.longitude != _myCurrentLocation?.longitude) {
         _myCurrentLocation = location;
-        log('listening to location $location');
+        log('Location updated: $location');
         update();
       }
     });
@@ -53,5 +67,12 @@ class LocationController extends GetxController {
 
   void stopToListenLocation() {
     _locationSubscription?.cancel();
+    _locationSubscription = null;
+  }
+
+  @override
+  void onClose() {
+    stopToListenLocation();
+    super.onClose();
   }
 }

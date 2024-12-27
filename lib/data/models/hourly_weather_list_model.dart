@@ -197,9 +197,9 @@ class Wind {
   Wind({this.speed, this.deg, this.gust});
 
   Wind.fromJson(Map<String, dynamic> json) {
-    speed = json['speed'];
+    speed = (json['speed'] as num?)?.toDouble();
     deg = json['deg'];
-    gust = json['gust'];
+    gust = (json['gust'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -281,8 +281,8 @@ class Coord {
   Coord({this.lat, this.lon});
 
   Coord.fromJson(Map<String, dynamic> json) {
-    lat = json['lat'];
-    lon = json['lon'];
+    lat = (json['lat'] as num?)?.toDouble();
+    lon = (json['lon'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {

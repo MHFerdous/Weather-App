@@ -64,6 +64,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               child: CircularProgressIndicator(),
             );
           }
+          if (instantWeatherController.instantWeatherListModel == null ||
+              hourlyForecastController.hourlyWeatherListModel == null) {
+            return Center(
+              child: Text('Data is loading...'),
+            );
+          }
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
