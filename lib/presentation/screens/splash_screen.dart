@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Get.find<LocationController>().getMyLocation();
     });
     Timer(
-      Duration(seconds: 6),
+      Duration(seconds: 2),
       () => Get.to(
         () => DashBoardScreen(),
       ),
